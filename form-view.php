@@ -5,8 +5,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css"
-          rel="stylesheet"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="style.css" type="text/css">
     <title>Order food & drinks</title>
 </head>
 <body>
@@ -22,11 +22,17 @@
             </li>
         </ul>
     </nav>
-    <form method="post">
+
+    <div class="order-sent">
+        <?php
+            echo $sent;
+        ?>
+    </div>
+    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
-                <input type="text" id="email" name="email" class="form-control"/>
+                <input type="email" id="email" name="email" class="form-control" value="<?php echo htmlspecialchars($email);?>"> <span class="error"><?php echo $emailErr;?></span>
             </div>
             <div></div>
         </div>
@@ -37,21 +43,21 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" id="street" class="form-control">
+                    <input type="text" name="street" id="street" class="form-control"  value="<?php echo htmlspecialchars($_SESSION["street"]);?>"> <span class="error"><?php echo $streetErr;?></span>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control">
+                    <input type="number" id="streetnumber" name="streetnumber" class="form-control"  value="<?php echo htmlspecialchars($_SESSION["streetnumber"]);?>"> <span class="error"><?php echo $streetnumberErr;?></span>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control">
+                    <input type="text" id="city" name="city" class="form-control"  value="<?php echo htmlspecialchars($_SESSION["city"]);?>"> <span class="error"><?php echo $cityErr;?></span>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control">
+                    <input type="number" max="9999" id="zipcode" name="zipcode" class="form-control"  value="<?php echo htmlspecialchars($_SESSION["zipcode"]);?>"> <span class="error"><?php echo $zipcodeErr;?></span>
                 </div>
             </div>
         </fieldset>
@@ -60,11 +66,15 @@
             <legend>Products</legend>
             <?php foreach ($products AS $i => $product): ?>
                 <label>
-                    <input type="checkbox" value="1" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
+                    <input type="checkbox" value="<?php echo $product['price']?>" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
                     &euro; <?php echo number_format($product['price'], 2) ?></label><br />
             <?php endforeach; ?>
         </fieldset>
-
+        <fieldset>
+        <legend>Delivery Method</legend>
+            <label><input type="radio" name="order" value="normal"> Normal: free</label>
+            <label><input type="radio" name="order" value="express"> Express: 10 &euro;</label><br>
+        </fieldset>
         <button type="submit" class="btn btn-primary">Order!</button>
     </form>
 
