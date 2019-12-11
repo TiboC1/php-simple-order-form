@@ -64,6 +64,7 @@
 
         <fieldset>
             <legend>Products</legend>
+            <p class="error"><?php echo $prodErr;?></p>
             <?php foreach ($products AS $i => $product): ?>
                 <label>
                     <input type="checkbox" value="<?php echo $product['price']?>" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
@@ -72,13 +73,14 @@
         </fieldset>
         <fieldset>
         <legend>Delivery Method</legend>
+        <p class="error"><?php echo $orderErr;?></p>
             <label><input type="radio" name="order" value="normal"> Normal: free</label>
             <label><input type="radio" name="order" value="express"> Express: 10 &euro;</label><br>
         </fieldset>
         <button type="submit" class="btn btn-primary">Order!</button>
     </form>
 
-    <footer>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in food and drinks.</footer>
+    <footer>You already ordered <strong>&euro; <?php echo $totalstr ?></strong> in food and drinks.</footer>
 </div>
 
 <style>
